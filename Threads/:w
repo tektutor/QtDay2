@@ -1,0 +1,9 @@
+#include "Thread.h"
+
+void Thread::run() {
+
+	for (int count=0; count<5; ++count)
+		qDebug() << currentThreadId() << " Message " << count << endl;
+}
+
+
