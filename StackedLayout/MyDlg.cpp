@@ -1,19 +1,60 @@
 #include "MyDlg.h"
 
 MyDlg::MyDlg() {
-	pBttn1 = new QPushButton("Button 1");	
-	pBttn2 = new QPushButton("Button 2");	
-	pBttn3 = new QPushButton("Button 3");	
 
-	pBttn1->setSizePolicy ( QSizePolicy::Fixed, QSizePolicy::Expanding );
-	pBttn2->setSizePolicy ( QSizePolicy::Expanding, QSizePolicy::Fixed );
-	pBttn3->setSizePolicy ( QSizePolicy::Fixed, QSizePolicy::Expanding);
+	pHBoxDlg = new HBoxDlg;
+	pVBoxDlg = new VBoxDlg;
+	pGridDlg = new GridDlg;
 
-	pLayout = new QVBoxLayout;
+	pStackedLayout = new QStackedLayout;
 
-	pLayout->addWidget ( pBttn1 );
-	pLayout->addWidget ( pBttn2 );
-	pLayout->addWidget ( pBttn3 );
+	pStackedLayout->addWidget ( pHBoxDlg );
+	pStackedLayout->addWidget ( pVBoxDlg );
+	pStackedLayout->addWidget ( pGridDlg );
 
-	setLayout ( pLayout );
+	pNavigationLayout = new QHBoxLayout;
+
+	pPrevButton = new QPushButton ( "Previous Window");
+	pNextButton = new QPushButton ( "Next Window");
+
+	pNavigationLayout->addWidget ( pPrevButton );
+	pNavigationLayout->addWidget ( pNextButton );
+
+	pMainLayout = new QVBoxLayout;
+
+	pMainLayout->addLayout ( pStackedLayout );
+	pMainLayout->addLayout ( pNavigationLayout );
+
+	setLayout ( pMainLayout );
+
+	connect (
+		pPrevButton,
+		SIGNAL ( clicked() ),
+		this,
+		SLOT ( onPrevButtonClicked() )
+	);
+
+	connect (
+		pNextButton,
+		SIGNAL ( clicked() ),
+		this,
+		SLOT ( onNextButtonClicked() )
+	);
+
+}
+
+void MyDlg::onPrevButtonClicked() {
+	qDebug() << "Prev Button clicked." << endl;
+	int currentWindowIndex = pStackedLayout->currentIndex();
+	
+	if ( currentWindowIndex > 0 )
+		pStackedLayout->setCurrentIndex( --currentWindowIndex );
+}
+
+void MyDlg::onNextButtonClicked() {
+	qDebug() << "Next Button clicked." << endl;
+	int currentWindowIndex = pStackedLayout->currentIndex();
+	
+	if ( currentWindowIndex < 2 )
+		pStackedLayout->setCurrentIndex( ++currentWindowIndex );
 }
