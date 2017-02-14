@@ -24,4 +24,4 @@ the projects.
 
 If you wish to hire me for Qt Consulting or Training purposes, please feel free to drop an email to jegan@tektutor.org
 
-Happy Codeing !!!
+Happy Coding !!!
